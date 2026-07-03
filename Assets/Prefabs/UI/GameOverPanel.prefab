@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7988121162533170431}
   - component: {fileID: 350783168292425404}
   - component: {fileID: 7576806585918609085}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GameOverPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

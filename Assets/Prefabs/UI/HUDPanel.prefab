@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 172224471095826553}
   - component: {fileID: 3328827907074891642}
   - component: {fileID: 3102345286973793170}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Heart3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 4499718513378033692}
   - component: {fileID: 636733651155239680}
   - component: {fileID: 8847748696645553834}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Heart1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4286726344589861383}
   - component: {fileID: 7123971480587333063}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EnergyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 7148041342780146326}
   - component: {fileID: 8990609944552168694}
   - component: {fileID: 5722884397292637504}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GemsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 1579164712261210732}
   - component: {fileID: 810176096257825128}
   - component: {fileID: 3591466322900545011}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Heart4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2655877285945459604}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LivesPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -498,7 +498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3524565665794543449}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HUDPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 2090465264977002625}
   - component: {fileID: 2573679372149145988}
   - component: {fileID: 5558207458399081041}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Heart2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -613,7 +613,7 @@ GameObject:
   - component: {fileID: 3762125122188189661}
   - component: {fileID: 4979279413813939693}
   - component: {fileID: 4855598522130339303}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Heart5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
