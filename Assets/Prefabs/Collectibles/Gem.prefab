@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8022749953701196329}
   m_Layer: 9
   m_Name: Gem
-  m_TagString: Untagged
+  m_TagString: Gem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8707133783163546048, guid: b4a27eb513cce0048ae53a38f0da753d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
