@@ -130,11 +130,21 @@ public class PatrolEnemy : MonoBehaviour
     void UpdateAnimation()
     {
         bool isMoving = patrolType != PatrolType.Stationary;
-        _anim.SetBool("IsWalking", isMoving);
 
-        // khusus vertical, kalau sprite enemy beda arah hadap atas/bawah
-        if (patrolType == PatrolType.Vertical)
+        if (HasParameter("IsWalking"))
+            _anim.SetBool("IsWalking", isMoving);
+
+        if (patrolType == PatrolType.Vertical && HasParameter("VerticalDirection"))
             _anim.SetFloat("VerticalDirection", _movingPositive ? 1f : -1f);
+    }
+
+    bool HasParameter(string paramName)
+    {
+        foreach (AnimatorControllerParameter param in _anim.parameters)
+        {
+            if (param.name == paramName) return true;
+        }
+        return false;
     }
 
     // Damage
