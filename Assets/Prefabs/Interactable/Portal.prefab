@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3381177325616077959}
   m_Layer: 0
   m_Name: Portal
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: 458723248, guid: 2fb1b87e7b1d66c42b691c1a539b447c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e7a14eee46431439d40f274a97cfca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Portal
+  enterEffectDuration: 0.6
 --- !u!70 &3381177325616077959
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
