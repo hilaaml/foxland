@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3590085886098314312}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EdgeCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1620626954496631795}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,9 @@ GameObject:
   - component: {fileID: 3792399180051302194}
   - component: {fileID: 8450218735555195982}
   - component: {fileID: 527377060983016094}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FrogEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,8 +184,9 @@ MonoBehaviour:
   wallCheckDistance: 0.3
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   verticalRange: 2
+  flipCooldown: 0.25
 --- !u!95 &8450218735555195982
 Animator:
   serializedVersion: 7
