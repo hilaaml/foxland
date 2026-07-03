@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     public Vector2 groundCheckSize = new Vector2(0.4f, 0.1f);
     public LayerMask groundLayer;
 
+    [Header("Jump Feel")]
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2f;
+
     private Rigidbody2D _rb;
     private Animator _anim;
     private bool _isGrounded;
@@ -37,13 +41,18 @@ public class PlayerController : MonoBehaviour
     {
         CheckGround();
         Move();
+        BetterJump();
     }
 
     void GatherInput()
     {
         _moveInput = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+        bool jumpPressed = Input.GetKeyDown(KeyCode.Space)
+                        || Input.GetKeyDown(KeyCode.W)
+                        || Input.GetKeyDown(KeyCode.UpArrow);
+
+        if (jumpPressed && _isGrounded)
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpForce);
             _anim.SetTrigger("Jump");
@@ -66,6 +75,27 @@ public class PlayerController : MonoBehaviour
             groundCheck.position, groundCheckSize, 0f, groundLayer);
     }
 
+    void BetterJump()
+    {
+        if (_rb.linearVelocity.y < 0)
+        {
+            _rb.linearVelocity += Vector2.up * Physics2D.gravity.y
+                * (fallMultiplier - 1) * Time.fixedDeltaTime;
+        }
+        else if (_rb.linearVelocity.y > 0)
+        {
+            bool jumpHeld = Input.GetKey(KeyCode.Space)
+                         || Input.GetKey(KeyCode.W)
+                         || Input.GetKey(KeyCode.UpArrow);
+
+            if (!jumpHeld)
+            {
+                _rb.linearVelocity += Vector2.up * Physics2D.gravity.y
+                    * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
+            }
+        }
+    }
+
     void Flip()
     {
         _facingRight = !_facingRight;
@@ -79,7 +109,6 @@ public class PlayerController : MonoBehaviour
     {
         _anim.SetBool("IsRunning", Mathf.Abs(_moveInput) > 0.01f);
         _anim.SetBool("IsGrounded", _isGrounded);
-        _anim.SetFloat("VelocityY", _rb.linearVelocity.y);
     }
 
     public bool IsGrounded() => _isGrounded;
@@ -90,4 +119,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = _isGrounded ? Color.green : Color.red;
         Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
     }
+
+
 }
