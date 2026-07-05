@@ -1,187 +1,102 @@
 using UnityEngine;
 
-public enum PatrolType
-{
-    Horizontal,
-    Vertical,
-    Stationary
-}
+public enum PatrolType { Stationary, Horizontal, Vertical }
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
 public class PatrolEnemy : MonoBehaviour
 {
-    [Header("Patrol Mode")]
+    [Header("Patrol Type")]
     public PatrolType patrolType = PatrolType.Horizontal;
     public float moveSpeed = 2f;
 
-    [Header("Horizontal Settings")]
-    public Transform edgeCheck;
-    public Transform wallCheck;
-    public float edgeCheckDistance = 0.5f;
-    public float wallCheckDistance = 0.3f;
-    public LayerMask groundLayer;
-
-    [Header("Vertical Settings")]
-    public float verticalRange = 2f;     // jarak naik-turun dari posisi awal
-    private float _topY;
-    private float _bottomY;
-
-    private bool _movingPositive = true; // arah umum: kanan (horizontal) / atas (vertical)
-    private Vector3 _startPos;
+    [Header("Waypoints")]
+    public Transform pointA;   // kiri / bawah
+    public Transform pointB;   // kanan / atas
 
     private Rigidbody2D _rb;
-    private Animator _anim;
-
-    [Header("Flip Cooldown")]
-    public float flipCooldown = 0.25f;
-    private float _lastFlipTime = -999f;
+    private bool _goingToB = true;
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _anim = GetComponent<Animator>();
-        _startPos = transform.position;
+    }
 
-        if (patrolType == PatrolType.Vertical)
+    void Start()
+    {
+        switch (patrolType)
         {
-            _topY = _startPos.y + verticalRange;
-            _bottomY = _startPos.y - verticalRange;
+            case PatrolType.Stationary:
+                _rb.bodyType = RigidbodyType2D.Static;
+                break;
+
+            case PatrolType.Horizontal:
+                _rb.bodyType = RigidbodyType2D.Dynamic;
+                _rb.gravityScale = 1f;
+                _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                break;
+
+            case PatrolType.Vertical:
+                _rb.bodyType = RigidbodyType2D.Dynamic;
+                _rb.gravityScale = 0f;
+                _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                break;
         }
     }
 
     void FixedUpdate()
     {
+        if (patrolType == PatrolType.Stationary) return;
+
+        if (pointA == null || pointB == null)
+        {
+            Debug.LogWarning($"[{name}] PointA atau PointB belum di-assign!");
+            return;
+        }
+
         switch (patrolType)
         {
-            case PatrolType.Horizontal:
-                PatrolHorizontal();
-                CheckTurnConditionsHorizontal();
-                break;
-
-            case PatrolType.Vertical:
-                PatrolVertical();
-                break;
-
-            case PatrolType.Stationary:
-                _rb.linearVelocity = Vector2.zero;
-                break;
-        }
-
-        UpdateAnimation();
-    }
-
-    // Horizontal
-    void PatrolHorizontal()
-    {
-        float direction = _movingPositive ? 1f : -1f;
-        _rb.linearVelocity = new Vector2(direction * moveSpeed, _rb.linearVelocity.y);
-    }
-
-    void CheckTurnConditionsHorizontal()
-    {
-        if (edgeCheck == null || wallCheck == null) return;
-        if (Time.time - _lastFlipTime < flipCooldown) return;
-
-        bool groundAhead = Physics2D.Raycast(
-            edgeCheck.position,
-            Vector2.down,
-            edgeCheckDistance,
-            groundLayer);
-
-        Vector2 wallDir = _movingPositive ? Vector2.right : Vector2.left;
-        RaycastHit2D wallHit = Physics2D.BoxCast(
-            wallCheck.position,
-            new Vector2(0.05f, 0.3f),  // kotak kecil setinggi badan
-            0f,
-            wallDir,
-            wallCheckDistance,
-            groundLayer);
-
-        bool wallAhead = wallHit.collider != null;
-
-        if (!groundAhead || wallAhead)
-        {
-            FlipHorizontal();
-            _lastFlipTime = Time.time;
+            case PatrolType.Horizontal: MoveHorizontal(); break;
+            case PatrolType.Vertical: MoveVertical(); break;
         }
     }
 
-    void FlipHorizontal()
+    void MoveHorizontal()
     {
-        _movingPositive = !_movingPositive;
-        transform.localScale = new Vector3(
-            -transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        float target = _goingToB ? pointB.position.x : pointA.position.x;
+        float dir = target > transform.position.x ? 1f : -1f;
+
+        _rb.linearVelocity = new Vector2(dir * moveSpeed, _rb.linearVelocity.y);
+
+        Vector3 s = transform.localScale;
+        transform.localScale = new Vector3(Mathf.Abs(s.x) * dir, s.y, s.z);
+
+        if (Mathf.Abs(transform.position.x - target) < 0.2f)
+            _goingToB = !_goingToB;
     }
 
-    // Vertical
-    void PatrolVertical()
+    void MoveVertical()
     {
-        float direction = _movingPositive ? 1f : -1f;
-        _rb.linearVelocity = new Vector2(0f, direction * moveSpeed);
+        float target = _goingToB ? pointB.position.y : pointA.position.y;
+        float dir = target > transform.position.y ? 1f : -1f;
 
-        if (transform.position.y >= _topY)
-            _movingPositive = false;
-        else if (transform.position.y <= _bottomY)
-            _movingPositive = true;
+        _rb.linearVelocity = new Vector2(0f, dir * moveSpeed);
+
+        if (Mathf.Abs(transform.position.y - target) < 0.2f)
+            _goingToB = !_goingToB;
     }
 
-    // Animation
-    void UpdateAnimation()
+    void OnCollisionEnter2D(Collision2D col)
     {
-        bool isMoving = patrolType != PatrolType.Stationary;
-
-        if (HasParameter("IsWalking"))
-            _anim.SetBool("IsWalking", isMoving);
-
-        if (patrolType == PatrolType.Vertical && HasParameter("VerticalDirection"))
-            _anim.SetFloat("VerticalDirection", _movingPositive ? 1f : -1f);
+        if (col.gameObject.CompareTag("Player"))
+            col.gameObject.GetComponent<PlayerHealth>()?.TakeDamage();
     }
 
-    bool HasParameter(string paramName)
-    {
-        foreach (AnimatorControllerParameter param in _anim.parameters)
-        {
-            if (param.name == paramName) return true;
-        }
-        return false;
-    }
-
-    // Damage
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<PlayerHealth>()?.TakeDamage();
-        }
-    }
-
-    // Debug Gizmos
     void OnDrawGizmosSelected()
     {
-        if (patrolType == PatrolType.Horizontal)
-        {
-            if (edgeCheck != null)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(edgeCheck.position,
-                    edgeCheck.position + Vector3.down * edgeCheckDistance);
-            }
-            if (wallCheck != null)
-            {
-                Gizmos.color = Color.blue;
-                Vector3 dir = _movingPositive ? Vector3.right : Vector3.left;
-                Gizmos.DrawLine(wallCheck.position,
-                    wallCheck.position + dir * wallCheckDistance);
-            }
-        }
-        else if (patrolType == PatrolType.Vertical)
-        {
-            Gizmos.color = Color.cyan;
-            Vector3 pos = Application.isPlaying ? _startPos : transform.position;
-            Gizmos.DrawLine(
-                new Vector3(pos.x, pos.y + verticalRange, pos.z),
-                new Vector3(pos.x, pos.y - verticalRange, pos.z));
-        }
+        if (pointA == null || pointB == null) return;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(pointA.position, 0.2f);
+        Gizmos.DrawWireSphere(pointB.position, 0.2f);
+        Gizmos.DrawLine(pointA.position, pointB.position);
     }
 }

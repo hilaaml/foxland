@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5278294466627282424
+--- !u!1 &4541921000264523932
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,30 +8,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3590085886098314312}
-  m_Layer: 0
-  m_Name: EdgeCheck
+  - component: {fileID: 5576376982551036604}
+  - component: {fileID: 6250169738296628610}
+  m_Layer: 8
+  m_Name: WP_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3590085886098314312
+--- !u!4 &5576376982551036604
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5278294466627282424}
+  m_GameObject: {fileID: 4541921000264523932}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.12, y: -0.78, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.35, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5369057958371861703}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7612616397418008558
+--- !u!114 &6250169738296628610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4541921000264523932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd43be35c645d04469ac55ff4b753b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatrolWaypoint
+--- !u!1 &7223822692807480291
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,29 +52,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1620626954496631795}
-  m_Layer: 0
-  m_Name: WallCheck
+  - component: {fileID: 7074180583362489433}
+  - component: {fileID: 4988776815211569852}
+  m_Layer: 8
+  m_Name: WP_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1620626954496631795
+--- !u!4 &7074180583362489433
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7612616397418008558}
+  m_GameObject: {fileID: 7223822692807480291}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.18, y: 0.83, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.19, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5369057958371861703}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4988776815211569852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223822692807480291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd43be35c645d04469ac55ff4b753b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatrolWaypoint
 --- !u!1 &9163888931415031000
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +102,7 @@ GameObject:
   - component: {fileID: 3792399180051302194}
   - component: {fileID: 8450218735555195982}
   - component: {fileID: 527377060983016094}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OpossumEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,8 +122,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3590085886098314312}
-  - {fileID: 1620626954496631795}
+  - {fileID: 5576376982551036604}
+  - {fileID: 7074180583362489433}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &6478638150627089995
@@ -178,15 +204,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PatrolEnemy
   patrolType: 0
   moveSpeed: 1
-  edgeCheck: {fileID: 3590085886098314312}
-  wallCheck: {fileID: 1620626954496631795}
-  edgeCheckDistance: 0.5
-  wallCheckDistance: 0.3
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  verticalRange: 2
-  flipCooldown: 0.25
+  pointA: {fileID: 5576376982551036604}
+  pointB: {fileID: 7074180583362489433}
+  spriteDefaultFacingLeft: 0
 --- !u!95 &8450218735555195982
 Animator:
   serializedVersion: 7
@@ -260,7 +280,7 @@ SpriteRenderer:
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1231604357, guid: fb3ba04b924699e40869ddd073fbaaed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 2.25, y: 1.75}
