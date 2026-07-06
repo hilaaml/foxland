@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5576376982551036604}
   - component: {fileID: 6250169738296628610}
   m_Layer: 8
-  m_Name: WP_A
+  m_Name: a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 4541921000264523932}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.35, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -55,8 +55,8 @@ GameObject:
   - component: {fileID: 7074180583362489433}
   - component: {fileID: 4988776815211569852}
   m_Layer: 8
-  m_Name: WP_B
-  m_TagString: Untagged
+  m_Name: b
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +70,7 @@ Transform:
   m_GameObject: {fileID: 7223822692807480291}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.19, y: -0, z: 0}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 527377060983016094}
   m_Layer: 8
   m_Name: OpossumEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,7 @@ Transform:
   m_GameObject: {fileID: 9163888931415031000}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.9394, y: 15.53134, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -187,8 +187,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.1788652, y: 0.02773118}
-  m_Size: {x: 1.6562161, y: 1.6562161}
+  m_Offset: {x: 0.19352055, y: 0.02773118}
+  m_Size: {x: 1.6661463, y: 1.7157984}
   m_Direction: 0
 --- !u!114 &3792399180051302194
 MonoBehaviour:
@@ -206,7 +206,6 @@ MonoBehaviour:
   moveSpeed: 1
   pointA: {fileID: 5576376982551036604}
   pointB: {fileID: 7074180583362489433}
-  spriteDefaultFacingLeft: 0
 --- !u!95 &8450218735555195982
 Animator:
   serializedVersion: 7

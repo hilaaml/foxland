@@ -37,7 +37,7 @@ public class GameManager : Singleton<GameManager>
         if (currentState != GameState.Playing) return;
 
         _gemsCollected++;
-        UIManager.Instance?.UpdateGemCounter(_gemsCollected, gemsRequired);
+        HUDController.Instance?.UpdateGemCounter(_gemsCollected, gemsRequired);
 
         if (_gemsCollected >= gemsRequired)
         {
@@ -56,7 +56,7 @@ public class GameManager : Singleton<GameManager>
     public void ResetGems()
     {
         _gemsCollected = 0;
-        UIManager.Instance?.UpdateGemCounter(_gemsCollected, gemsRequired);
+        HUDController.Instance?.UpdateGemCounter(_gemsCollected, gemsRequired);
     }
 
     // State Machine

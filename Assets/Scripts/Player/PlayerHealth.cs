@@ -29,7 +29,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         respawnPoint = transform;
-        UIManager.Instance?.UpdateLives(currentLives);
+        HUDController.Instance?.UpdateLives(currentLives);
     }
 
     public void TakeDamage()
@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour
 
         currentLives--;
         AudioManager.Instance?.PlaySFX("Hurt");
-        UIManager.Instance?.UpdateLives(currentLives);
+        HUDController.Instance?.UpdateLives(currentLives);
 
         if (currentLives <= 0)
         {
@@ -97,6 +97,6 @@ public class PlayerHealth : MonoBehaviour
         _isDead = false;
         _isInvincible = false;
         _controller.enabled = true;
-        UIManager.Instance?.UpdateLives(currentLives);
+        HUDController.Instance?.UpdateLives(currentLives);
     }
 }

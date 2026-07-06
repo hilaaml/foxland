@@ -1,13 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-/// <summary>
-/// Parallax layer dengan infinite tiling otomatis.
-/// Background TIDAK perlu di-duplicate manual di Hierarchy.
-/// Cukup taruh SATU child sprite (sebagai "source"), script akan
-/// meng-clone-nya secara runtime sebanyak yang dibutuhkan untuk
-/// menutupi seluruh lebar kamera + buffer kiri-kanan.
-/// </summary>
 [ExecuteAlways]
 public class ParallaxLayer : MonoBehaviour
 {

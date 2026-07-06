@@ -11,7 +11,7 @@ public class SoundEntry
 
 public class AudioManager : Singleton<AudioManager>
 {
-    [Header("SFX - 10")]
+    [Header("SFX")]
     public SoundEntry[] sfxList;
 
     [Header("BGM")]
@@ -43,7 +43,7 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    // ── SFX ────────────────────────────────────────
+    // SFX
     public void PlaySFX(string soundName)
     {
         if (_sfxDict.TryGetValue(soundName, out SoundEntry entry))
@@ -56,7 +56,7 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    // ── BGM ────────────────────────────────────────
+    // BGM
     public void PlayBGM(AudioClip clip)
     {
         if (_bgmSource.clip == clip) return;

@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3590085886098314312}
-  m_Layer: 0
-  m_Name: EdgeCheck
+  - component: {fileID: 6595493739171709002}
+  m_Layer: 8
+  m_Name: a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,12 +26,24 @@ Transform:
   m_GameObject: {fileID: 5278294466627282424}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.13, y: -1.19, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5369057958371861703}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6595493739171709002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5278294466627282424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd43be35c645d04469ac55ff4b753b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatrolWaypoint
 --- !u!1 &7612616397418008558
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,8 +53,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1620626954496631795}
-  m_Layer: 0
-  m_Name: WallCheck
+  - component: {fileID: 2804845803415740066}
+  m_Layer: 8
+  m_Name: b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,12 +70,24 @@ Transform:
   m_GameObject: {fileID: 7612616397418008558}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.34, y: 1.32, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5369057958371861703}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2804845803415740066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612616397418008558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd43be35c645d04469ac55ff4b753b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatrolWaypoint
 --- !u!1 &9163888931415031000
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,9 +102,9 @@ GameObject:
   - component: {fileID: 3792399180051302194}
   - component: {fileID: 8450218735555195982}
   - component: {fileID: 527377060983016094}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EagleEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,7 +118,7 @@ Transform:
   m_GameObject: {fileID: 9163888931415031000}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.9394, y: 15.53134, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -178,15 +204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PatrolEnemy
   patrolType: 1
   moveSpeed: 1
-  edgeCheck: {fileID: 3590085886098314312}
-  wallCheck: {fileID: 1620626954496631795}
-  edgeCheckDistance: 0.5
-  wallCheckDistance: 0.3
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  verticalRange: 2
-  flipCooldown: 0.25
+  pointA: {fileID: 3590085886098314312}
+  pointB: {fileID: 1620626954496631795}
 --- !u!95 &8450218735555195982
 Animator:
   serializedVersion: 7

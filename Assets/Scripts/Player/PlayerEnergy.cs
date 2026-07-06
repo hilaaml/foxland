@@ -36,7 +36,7 @@ public class PlayerEnergy : MonoBehaviour
     void Start()
     {
         StartCoroutine(DrainRoutine());
-        UIManager.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
+        HUDController.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
     }
 
     IEnumerator DrainRoutine()
@@ -49,7 +49,7 @@ public class PlayerEnergy : MonoBehaviour
             {
                 currentEnergy -= drainRate;
                 currentEnergy = Mathf.Max(0f, currentEnergy);
-                UIManager.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
+                HUDController.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
             }
 
             UpdateSpeedPenalty();
@@ -95,7 +95,7 @@ public class PlayerEnergy : MonoBehaviour
         _hungerTimer = 0f;
         _isHungry = false;
         UpdateSpeedPenalty();
-        UIManager.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
+        HUDController.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
         AudioManager.Instance?.PlaySFX("EatCherry");
     }
 
@@ -105,7 +105,7 @@ public class PlayerEnergy : MonoBehaviour
         _hungerTimer = 0f;
         _isHungry = false;
         UpdateSpeedPenalty();
-        UIManager.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
+        HUDController.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
     }
 
     public bool IsHungry() => _isHungry;

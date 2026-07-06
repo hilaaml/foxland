@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenuController : MonoBehaviour
 {
     void Update()
     {
-        // toggle pause dengan Escape atau P
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
             if (GameManager.Instance.currentState == GameState.Playing)

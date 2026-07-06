@@ -9,6 +9,11 @@ TagManager:
   - Cherry
   - Checkpoint
   - Portal
+  - CanvasHUD
+  - CanvasPause
+  - CanvasLevelClear
+  - CanvasFinalClear
+  - CanvasGameOver
   layers:
   - Default
   - TransparentFX
