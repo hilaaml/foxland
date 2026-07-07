@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -22,30 +23,39 @@ public class UIManager : Singleton<UIManager>
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        StartCoroutine(InitAfterFrame());
+    }
+
+    IEnumerator InitAfterFrame()
+    {
+        yield return null;
         FindAllCanvas();
         ShowHUD();
     }
 
+    // ── Find Canvas ──────────────────────────────────
     void FindAllCanvas()
     {
-        _canvasHUD = FindCanvasByTag("Canvas_HUD");
-        _canvasPause = FindCanvasByTag("Canvas_Pause");
-        _canvasLevelClear = FindCanvasByTag("Canvas_LevelClear");
-        _canvasFinalClear = FindCanvasByTag("Canvas_FinalClear");
-        _canvasGameOver = FindCanvasByTag("Canvas_GameOver");
+        _canvasHUD = FindCanvasByTag("CanvasHUD");
+        _canvasPause = FindCanvasByTag("CanvasPause");
+        _canvasLevelClear = FindCanvasByTag("CanvasLevelClear");
+        _canvasFinalClear = FindCanvasByTag("CanvasFinalClear");
+        _canvasGameOver = FindCanvasByTag("CanvasGameOver");
     }
 
     Canvas FindCanvasByTag(string tag)
     {
-        GameObject obj = GameObject.FindWithTag(tag);
-        if (obj == null)
-        {
-            Debug.LogWarning($"[UIManager] Tag '{tag}' tidak ditemukan.");
-            return null;
-        }
-        return obj.GetComponent<Canvas>();
+        Canvas[] all = FindObjectsByType<Canvas>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None);
+
+        foreach (Canvas c in all)
+            if (c.gameObject.CompareTag(tag)) return c;
+
+        return null;
     }
 
+    // ── Canvas Control ───────────────────────────────
     void SetCanvas(Canvas canvas, bool active)
     {
         if (canvas != null) canvas.gameObject.SetActive(active);
@@ -92,5 +102,21 @@ public class UIManager : Singleton<UIManager>
     {
         HideAllCanvas();
         SetCanvas(_canvasGameOver, true);
+    }
+
+    // ── HUD Updates — delegate ke HUDController ──────
+    public void UpdateLives(int currentLives)
+    {
+        HUDController.Instance?.UpdateLives(currentLives);
+    }
+
+    public void UpdateGemCounter(int collected, int required)
+    {
+        HUDController.Instance?.UpdateGemCounter(collected, required);
+    }
+
+    public void UpdateEnergyBar(float normalizedValue)
+    {
+        HUDController.Instance?.UpdateEnergyBar(normalizedValue);
     }
 }

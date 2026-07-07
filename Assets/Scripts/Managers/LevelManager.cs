@@ -3,12 +3,7 @@ using UnityEngine;
 public class LevelManager : Singleton<LevelManager>
 {
     [Header("Portal")]
-    public GameObject portal;              // drag Portal GameObject di Inspector
-    public GameObject portalLockedVFX;    // visual saat portal terkunci (opsional)
-
-    [Header("Player Reference")]
-    public PlayerHealth playerHealth;
-    public PlayerEnergy playerEnergy;
+    public GameObject portal;
 
     private bool _portalOpen = false;
 
@@ -26,9 +21,6 @@ public class LevelManager : Singleton<LevelManager>
     {
         if (portal != null)
             portal.SetActive(false);
-
-        if (portalLockedVFX != null)
-            portalLockedVFX.SetActive(true);
     }
 
     public void OpenPortal()
@@ -37,24 +29,24 @@ public class LevelManager : Singleton<LevelManager>
 
         if (portal != null)
             portal.SetActive(true);
-
-        if (portalLockedVFX != null)
-            portalLockedVFX.SetActive(false);
     }
 
     public void OnPlayerReachPortal()
     {
         if (!_portalOpen) return;
-
         GameManager.Instance?.LevelClear();
     }
 
     public void LoadNextLevel()
     {
-        playerHealth?.ResetHealth();
-        playerEnergy?.ResetEnergy();
-        GameManager.Instance?.PrepareNextLevel();
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            player.GetComponent<PlayerHealth>()?.ResetHealth();
+            player.GetComponent<PlayerEnergy>()?.ResetEnergy();
+        }
 
+        GameManager.Instance?.PrepareNextLevel();
         SceneLoader.LoadNextScene();
     }
 }
