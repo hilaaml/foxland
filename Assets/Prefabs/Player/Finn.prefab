@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxLives: 5
   currentLives: 0
-  respawnDelay: 1.5
+  respawnDelay: 1
   respawnPoint: {fileID: 0}
   invincibleDuration: 1.5
 --- !u!114 &-1286978464277323728
