@@ -300,7 +300,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2484544044259750871}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a8e5d1ee347aec44b33ac6ccbd59c1a, type: 3}
+  m_Script: {fileID: 11500000, guid: cb1cc5ab8c75b5a4f966f9101c52d02f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   heartBarImage: {fileID: 904949672054448085}
