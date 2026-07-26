@@ -4,8 +4,6 @@ public enum GameState { Playing, Paused, GameOver, LevelClear }
 
 public class GameManager : Singleton<GameManager>
 {
-    [Header("Gem Settings")]
-    public int gemsRequired = 5;
     private int _gemsCollected = 0;
 
     public GameState currentState { get; private set; } = GameState.Playing;
@@ -19,7 +17,7 @@ public class GameManager : Singleton<GameManager>
     {
         _gemsCollected = 0;
         currentState = GameState.Playing;
-        HUDController.Instance?.UpdateGemCounter(_gemsCollected, gemsRequired);
+        HUDController.Instance?.UpdateGemCounter(_gemsCollected, GetGemsRequired());
     }
 
     // Gem
@@ -28,16 +26,25 @@ public class GameManager : Singleton<GameManager>
         if (currentState != GameState.Playing) return;
 
         _gemsCollected++;
-        HUDController.Instance?.UpdateGemCounter(_gemsCollected, gemsRequired);
+        int required = GetGemsRequired();
+        HUDController.Instance?.UpdateGemCounter(_gemsCollected, required);
 
-        if (_gemsCollected >= gemsRequired)
+        if (_gemsCollected >= required)
         {
-            AudioManager.Instance?.PlaySFX("LevelClear");
+            AudioManager.Instance?.PlaySFX(SFXId.LevelClear);
             LevelManager.Instance?.OpenPortal();
         }
     }
 
-    public int GetGemsCollected() => _gemsCollected;
+    int GetGemsRequired()
+    {
+        if (LevelManager.Instance == null)
+        {
+            Debug.LogWarning("[GameManager] LevelManager tidak ditemukan di scene ini, gemsRequired default ke 5.");
+            return 5;
+        }
+        return LevelManager.Instance.gemsRequired;
+    }
 
     // State Machine
     public void SetState(GameState newState)
@@ -53,20 +60,25 @@ public class GameManager : Singleton<GameManager>
 
             case GameState.Paused:
                 Time.timeScale = 0f;
+                StopPatrolAudio();
                 break;
 
             case GameState.GameOver:
                 Time.timeScale = 0f;
                 UIManager.Instance?.ShowGameOver();
-                AudioManager.Instance?.PlaySFX("GameOver");
+                AudioManager.Instance?.PlaySFX(SFXId.GameOver);
+                StopPatrolAudio();
                 break;
 
             case GameState.LevelClear:
                 Time.timeScale = 0f;
                 UIManager.Instance?.ShowLevelClear();
+                StopPatrolAudio();
                 break;
         }
     }
+
+    void StopPatrolAudio() => AudioManager.Instance?.UpdatePatrolProximity(false);
 
     public void GameOver() => SetState(GameState.GameOver);
     public void LevelClear() => SetState(GameState.LevelClear);

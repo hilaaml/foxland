@@ -18,7 +18,6 @@ public class PlayerEnergy : MonoBehaviour
     [Header("Hunger")]
     public float hungerTimeout = 30f;
     private float _hungerTimer = 0f;
-    private bool _isHungry = false;
 
     [Header("Cherry Restore")]
     public float cherryRestoreAmount = 25f;
@@ -45,18 +44,16 @@ public class PlayerEnergy : MonoBehaviour
 
         if (currentEnergy <= 0f)
         {
-            _isHungry = true;
             _hungerTimer += Time.deltaTime;
 
             if (_hungerTimer >= hungerTimeout)
             {
                 _hungerTimer = 0f;
-                _health?.LoseLife();
+                _health?.TakeDamage();
             }
         }
         else
         {
-            _isHungry = false;
             _hungerTimer = 0f;
         }
     }
@@ -99,19 +96,8 @@ public class PlayerEnergy : MonoBehaviour
     {
         currentEnergy += cherryRestoreAmount;
         currentEnergy = Mathf.Min(currentEnergy, maxEnergy);
-        _isHungry = false;
         _hungerTimer = 0f;
         HUDController.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
-        AudioManager.Instance?.PlaySFX("EatCherry");
+        AudioManager.Instance?.PlaySFX(SFXId.EatCherry);
     }
-
-    public void ResetEnergy()
-    {
-        currentEnergy = maxEnergy;
-        _hungerTimer = 0f;
-        _isHungry = false;
-        HUDController.Instance?.UpdateEnergyBar(currentEnergy / maxEnergy);
-    }
-
-    public bool IsHungry() => _isHungry;
 }

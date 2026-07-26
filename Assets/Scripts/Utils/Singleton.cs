@@ -14,6 +14,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
+    // Override jadi false untuk singleton yang scene-scoped
+    // (mis. HUDController, LevelManager — tidak boleh DontDestroyOnLoad).
+    protected virtual bool Persistent => true;
+
     protected virtual void Awake()
     {
         if (_instance != null && _instance != this)
@@ -22,6 +26,11 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             return;
         }
         _instance = this as T;
-        DontDestroyOnLoad(gameObject);
+        if (Persistent) DontDestroyOnLoad(gameObject);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (_instance == this) _instance = null;
     }
 }

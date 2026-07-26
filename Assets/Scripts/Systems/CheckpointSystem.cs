@@ -25,7 +25,7 @@ public class CheckpointSystem : MonoBehaviour
 
         PlayerHealth player = other.GetComponent<PlayerHealth>();
         if (player != null)
-            player.SetRespawnPoint(transform);
+            player.SetRespawnPoint(transform.position);
     }
 
     void SwapClip(AnimationClip newClip)

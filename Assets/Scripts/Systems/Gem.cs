@@ -1,30 +1,10 @@
 using UnityEngine;
 
-public class Gem : MonoBehaviour
+public class Gem : CollectibleBase
 {
-    [Header("Animation")]
-    public float bobSpeed = 2f;
-    public float bobHeight = 0.2f;
-
-    private Vector3 _startPos;
-
-    void Start()
+    protected override void OnCollected(Collider2D player)
     {
-        _startPos = transform.position;
-    }
-
-    void Update()
-    {
-        float newY = _startPos.y + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
-        transform.position = new Vector3(_startPos.x, newY, _startPos.z);
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!other.CompareTag("Player")) return;
-
-        AudioManager.Instance?.PlaySFX("CollectGem");
+        AudioManager.Instance?.PlaySFX(SFXId.CollectGem);
         GameManager.Instance?.CollectGem();
-        Destroy(gameObject);
     }
 }

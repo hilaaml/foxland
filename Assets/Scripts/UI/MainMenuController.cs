@@ -13,27 +13,27 @@ public class MainMenuController : MonoBehaviour
 
     public void StartGame()
     {
-        AudioManager.Instance?.PlaySFX("UIClick");
+        AudioManager.Instance?.PlaySFX(SFXId.UIClick);
         SceneLoader.LoadScene("Level1");
     }
 
     public void OpenCredits()
     {
-        AudioManager.Instance?.PlaySFX("UIClick");
+        AudioManager.Instance?.PlaySFX(SFXId.UIClick);
         mainMenuPanel.SetActive(false);
         creditsPanel.SetActive(true);
     }
 
     public void CloseCredits()
     {
-        AudioManager.Instance?.PlaySFX("UIClick");
+        AudioManager.Instance?.PlaySFX(SFXId.UIClick);
         creditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
     }
 
     public void ExitGame()
     {
-        AudioManager.Instance?.PlaySFX("UIClick");
+        AudioManager.Instance?.PlaySFX(SFXId.UIClick);
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

@@ -2,6 +2,20 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+public static class SFXId
+{
+    public const string Jump = "Jump";
+    public const string Land = "Land";
+    public const string Hurt = "Hurt";
+    public const string Death = "Death";
+    public const string CollectGem = "CollectGem";
+    public const string EatCherry = "EatCherry";
+    public const string LevelClear = "LevelClear";
+    public const string GameOver = "GameOver";
+    public const string UIClick = "UIClick";
+    public const string PatrolSFX = "PatrolSFX";
+}
+
 [System.Serializable]
 public class SFXEntry
 {
@@ -25,8 +39,9 @@ public class AudioManager : Singleton<AudioManager>
     [Range(0f, 1f)] public float bgmVolume = 0.5f;
     public float fadeDuration = 0.4f;
 
-    [Header("Patrol SFX")]
-    public float patrolHearRadius = 8f;
+    [Header("Patrol SFX & Ducking")]
+    [Tooltip("Berapa persen BGM utama diturunkan saat enemy patrol terlihat di kamera (0.5 = setengah volume).")]
+    [Range(0f, 1f)] public float patrolDuckMultiplier = 0.5f;
 
     private AudioSource _sfxSource;
     private AudioSource _mainSource;
@@ -42,6 +57,7 @@ public class AudioManager : Singleton<AudioManager>
     private bool _patrolPlaying;
     private bool _overlayActive;
     private bool _overlayLoaded;
+    private bool _isDucked;
 
     protected override void Awake()
     {
@@ -70,6 +86,7 @@ public class AudioManager : Singleton<AudioManager>
     public void OnSceneReady(string sceneName)
     {
         StopPatrol();
+        _isDucked = false;
 
         // reset overlay state antar scene
         _overlaySource.Stop();
@@ -162,7 +179,9 @@ public class AudioManager : Singleton<AudioManager>
         _overlayFadeCo = StartCoroutine(FadeOutThenPause(_overlaySource));
 
         if (_mainFadeCo != null) StopCoroutine(_mainFadeCo);
-        _mainFadeCo = StartCoroutine(FadeVolume(_mainSource, bgmVolume));
+
+        float target = _isDucked ? bgmVolume * patrolDuckMultiplier : bgmVolume;
+        _mainFadeCo = StartCoroutine(FadeVolume(_mainSource, target));
     }
 
     IEnumerator FadeOutThenPause(AudioSource source)
@@ -180,12 +199,11 @@ public class AudioManager : Singleton<AudioManager>
             Debug.LogWarning($"[AudioManager] SFX '{soundName}' tidak ditemukan!");
     }
 
-    // Patrol SFX Proximity
-    public void UpdatePatrolProximity(bool anyNearby)
+    public void UpdatePatrolProximity(bool anyInFrame)
     {
-        if (!_sfxDict.TryGetValue("PatrolSFX", out SFXEntry entry)) return;
+        if (!_sfxDict.TryGetValue(SFXId.PatrolSFX, out SFXEntry entry)) return;
 
-        if (anyNearby && !_patrolPlaying)
+        if (anyInFrame && !_patrolPlaying)
         {
             _patrolSource.clip = entry.clip;
             _patrolSource.volume = 0f;
@@ -194,11 +212,15 @@ public class AudioManager : Singleton<AudioManager>
 
             if (_patrolCo != null) StopCoroutine(_patrolCo);
             _patrolCo = StartCoroutine(FadeVolume(_patrolSource, entry.volume));
+
+            DuckMainBGM(true);
         }
-        else if (!anyNearby && _patrolPlaying)
+        else if (!anyInFrame && _patrolPlaying)
         {
             if (_patrolCo != null) StopCoroutine(_patrolCo);
             _patrolCo = StartCoroutine(FadeOutPatrol());
+
+            DuckMainBGM(false);
         }
     }
 
@@ -215,6 +237,17 @@ public class AudioManager : Singleton<AudioManager>
         _patrolPlaying = false;
         yield return StartCoroutine(FadeVolume(_patrolSource, 0f));
         _patrolSource.Stop();
+    }
+
+    void DuckMainBGM(bool duck)
+    {
+        _isDucked = duck;
+
+        if (_overlayActive) return;
+
+        if (_mainFadeCo != null) StopCoroutine(_mainFadeCo);
+        float target = duck ? bgmVolume * patrolDuckMultiplier : bgmVolume;
+        _mainFadeCo = StartCoroutine(FadeVolume(_mainSource, target));
     }
 
     // Utilities
@@ -235,8 +268,6 @@ public class AudioManager : Singleton<AudioManager>
     {
         bgmVolume = vol;
         if (_mainSource.isPlaying && !_overlayActive)
-            _mainSource.volume = vol;
+            _mainSource.volume = _isDucked ? vol * patrolDuckMultiplier : vol;
     }
-
-    public float GetPatrolHearRadius() => patrolHearRadius;
 }

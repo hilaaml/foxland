@@ -4,9 +4,7 @@ public class PlayerSpawnPoint : MonoBehaviour
 {
     void Start()
     {
-        PlayerHealth player = FindFirstObjectByType<PlayerHealth>();
-        if (player != null)
-            player.SetRespawnPoint(transform);
+        PlayerController.Instance?.GetComponent<PlayerHealth>()?.SetRespawnPoint(transform.position);
     }
 
     void OnDrawGizmos()

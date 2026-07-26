@@ -19,8 +19,9 @@ public class SceneTransition : Singleton<SceneTransition>
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -68,6 +69,7 @@ public class SceneTransition : Singleton<SceneTransition>
         GameManager.Instance?.OnSceneReady();
         UIManager.Instance?.OnSceneReady();
         AudioManager.Instance?.OnSceneReady(sceneName);
+        PlayerController.Instance?.GetComponent<PlayerHealth>()?.OnSceneReady();
 
         // 4. Satu frame lagi setelah manager init
         yield return null;
