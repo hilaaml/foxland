@@ -6,13 +6,11 @@ public class PatrolWaypoint : MonoBehaviour
 
     void Start()
     {
-        // simpan posisi world saat spawn
         _worldPosition = transform.position;
     }
 
     void LateUpdate()
     {
-        // paksa posisi tetap di world space meski parent di-flip
         transform.position = _worldPosition;
     }
 

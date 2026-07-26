@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private Animator _anim;
     private bool _isGrounded;
+    private bool _wasGrounded;
     private float _moveInput;
     private bool _facingRight = true;
 
@@ -39,9 +40,17 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        _wasGrounded = _isGrounded;
         CheckGround();
+        DetectLanding();
         Move();
         BetterJump();
+    }
+
+    void DetectLanding()
+    {
+        if (!_wasGrounded && _isGrounded)
+            AudioManager.Instance?.PlaySFX("Land");
     }
 
     void GatherInput()
@@ -89,10 +98,8 @@ public class PlayerController : MonoBehaviour
                          || Input.GetKey(KeyCode.UpArrow);
 
             if (!jumpHeld)
-            {
                 _rb.linearVelocity += Vector2.up * Physics2D.gravity.y
                     * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
-            }
         }
     }
 
@@ -119,6 +126,4 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = _isGrounded ? Color.green : Color.red;
         Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
     }
-
-
 }

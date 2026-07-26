@@ -1,12 +1,6 @@
 using UnityEngine;
 
-public enum GameState
-{
-    Playing,
-    Paused,
-    GameOver,
-    LevelClear
-}
+public enum GameState { Playing, Paused, GameOver, LevelClear }
 
 public class GameManager : Singleton<GameManager>
 {
@@ -14,21 +8,18 @@ public class GameManager : Singleton<GameManager>
     public int gemsRequired = 5;
     private int _gemsCollected = 0;
 
-    [Header("State")]
-    public GameState currentState = GameState.Playing;
-
-    // referensi portal — di-assign dari LevelManager
-    private LevelManager _levelManager;
+    public GameState currentState { get; private set; } = GameState.Playing;
 
     protected override void Awake()
     {
         base.Awake();
     }
 
-    void Start()
+    public void OnSceneReady()
     {
-        ResetGems();
-        SetState(GameState.Playing);
+        _gemsCollected = 0;
+        currentState = GameState.Playing;
+        HUDController.Instance?.UpdateGemCounter(_gemsCollected, gemsRequired);
     }
 
     // Gem
@@ -41,23 +32,12 @@ public class GameManager : Singleton<GameManager>
 
         if (_gemsCollected >= gemsRequired)
         {
-            OnAllGemsCollected();
+            AudioManager.Instance?.PlaySFX("LevelClear");
+            LevelManager.Instance?.OpenPortal();
         }
     }
 
-    void OnAllGemsCollected()
-    {
-        AudioManager.Instance?.PlaySFX("LevelClear");
-        LevelManager.Instance?.OpenPortal();
-    }
-
     public int GetGemsCollected() => _gemsCollected;
-
-    public void ResetGems()
-    {
-        _gemsCollected = 0;
-        HUDController.Instance?.UpdateGemCounter(_gemsCollected, gemsRequired);
-    }
 
     // State Machine
     public void SetState(GameState newState)
@@ -67,7 +47,8 @@ public class GameManager : Singleton<GameManager>
         switch (newState)
         {
             case GameState.Playing:
-                Time.timeScale = 1f;
+                if (SceneTransition.Instance == null || !SceneTransition.Instance.IsFading)
+                    Time.timeScale = 1f;
                 break;
 
             case GameState.Paused:
@@ -87,20 +68,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void GameOver()
-    {
-        SetState(GameState.GameOver);
-    }
-
-    public void LevelClear()
-    {
-        SetState(GameState.LevelClear);
-    }
-
-    // Reset untuk level baru
-    public void PrepareNextLevel()
-    {
-        ResetGems();
-        SetState(GameState.Playing);
-    }
+    public void GameOver() => SetState(GameState.GameOver);
+    public void LevelClear() => SetState(GameState.LevelClear);
 }

@@ -26,7 +26,6 @@ public class LevelManager : Singleton<LevelManager>
     public void OpenPortal()
     {
         _portalOpen = true;
-
         if (portal != null)
             portal.SetActive(true);
     }
@@ -46,7 +45,6 @@ public class LevelManager : Singleton<LevelManager>
             player.GetComponent<PlayerEnergy>()?.ResetEnergy();
         }
 
-        GameManager.Instance?.PrepareNextLevel();
         SceneLoader.LoadNextScene();
     }
 }

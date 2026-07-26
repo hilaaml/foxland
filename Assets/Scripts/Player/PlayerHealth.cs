@@ -28,13 +28,11 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
-        // cari SpawnPoint di scene sebagai respawn awal
         PlayerSpawnPoint spawnPoint = FindFirstObjectByType<PlayerSpawnPoint>();
         if (spawnPoint != null)
             _respawnPoint = spawnPoint.transform;
         else
         {
-            // fallback: buat marker di posisi awal Finn
             _respawnPoint = new GameObject("FallbackSpawn").transform;
             _respawnPoint.position = transform.position;
             Debug.LogWarning("[PlayerHealth] SpawnPoint tidak ditemukan, pakai posisi awal Finn.");

@@ -36,7 +36,6 @@ public class Portal : MonoBehaviour
 
     IEnumerator PlayerEnterPortalRoutine(GameObject player)
     {
-        // matikan kontrol player saat efek main
         PlayerController controller = player.GetComponent<PlayerController>();
         if (controller != null) controller.enabled = false;
 
@@ -45,7 +44,7 @@ public class Portal : MonoBehaviour
 
         Vector3 startScale = player.transform.localScale;
         Vector3 startPos = player.transform.position;
-        Vector3 targetPos = transform.position; // tertarik ke tengah portal
+        Vector3 targetPos = transform.position;
 
         SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
         Color startColor = sr != null ? sr.color : Color.white;
@@ -56,7 +55,6 @@ public class Portal : MonoBehaviour
             t += Time.deltaTime;
             float progress = t / enterEffectDuration;
 
-            // tertarik ke tengah portal + mengecil + transparan
             player.transform.position = Vector3.Lerp(startPos, targetPos, progress);
             player.transform.localScale = Vector3.Lerp(startScale, Vector3.zero, progress);
 
@@ -70,7 +68,6 @@ public class Portal : MonoBehaviour
             yield return null;
         }
 
-        // baru pindah ke level berikutnya setelah efek selesai
         LevelManager.Instance?.OnPlayerReachPortal();
     }
 }

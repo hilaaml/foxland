@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -13,27 +12,19 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    void OnDestroy()
+    public void OnSceneReady()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        StartCoroutine(InitAfterFrame());
-    }
-
-    IEnumerator InitAfterFrame()
-    {
-        yield return null;
         FindAllCanvas();
-        ShowHUD();
+        HideAllCanvas();
+        // tampilkan HUD hanya di scene gameplay
+        string scene = SceneManager.GetActiveScene().name;
+        if (scene == "Level1" || scene == "Level2")
+            SetCanvas(_canvasHUD, true);
     }
 
-    // ── Find Canvas ──────────────────────────────────
+    // Canvas Finder
     void FindAllCanvas()
     {
         _canvasHUD = FindCanvasByTag("CanvasHUD");
@@ -46,16 +37,12 @@ public class UIManager : Singleton<UIManager>
     Canvas FindCanvasByTag(string tag)
     {
         Canvas[] all = FindObjectsByType<Canvas>(
-            FindObjectsInactive.Include,
-            FindObjectsSortMode.None);
-
+            FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (Canvas c in all)
             if (c.gameObject.CompareTag(tag)) return c;
-
         return null;
     }
 
-    // ── Canvas Control ───────────────────────────────
     void SetCanvas(Canvas canvas, bool active)
     {
         if (canvas != null) canvas.gameObject.SetActive(active);
@@ -70,53 +57,41 @@ public class UIManager : Singleton<UIManager>
         SetCanvas(_canvasGameOver, false);
     }
 
+    // Show Panels
     public void ShowHUD()
     {
         HideAllCanvas();
         SetCanvas(_canvasHUD, true);
+        AudioManager.Instance?.HideMenuOverlay();
     }
 
     public void ShowPauseMenu()
     {
         SetCanvas(_canvasHUD, true);
         SetCanvas(_canvasPause, true);
-    }
-
-    public void HidePauseMenu()
-    {
-        SetCanvas(_canvasPause, false);
+        AudioManager.Instance?.ShowMenuOverlay();
     }
 
     public void ShowLevelClear()
     {
         HideAllCanvas();
-        int buildIndex = SceneManager.GetActiveScene().buildIndex;
-
-        if (buildIndex == 3)
-            SetCanvas(_canvasFinalClear, true);
-        else
-            SetCanvas(_canvasLevelClear, true);
+        AudioManager.Instance?.ShowMenuOverlay();
+        bool isFinalLevel = SceneManager.GetActiveScene().buildIndex == 3;
+        SetCanvas(isFinalLevel ? _canvasFinalClear : _canvasLevelClear, true);
     }
 
     public void ShowGameOver()
     {
         HideAllCanvas();
+        AudioManager.Instance?.ShowMenuOverlay();
         SetCanvas(_canvasGameOver, true);
     }
 
-    // ── HUD Updates — delegate ke HUDController ──────
-    public void UpdateLives(int currentLives)
-    {
+    // HUD Passthrough
+    public void UpdateLives(int currentLives) =>
         HUDController.Instance?.UpdateLives(currentLives);
-    }
-
-    public void UpdateGemCounter(int collected, int required)
-    {
-        HUDController.Instance?.UpdateGemCounter(collected, required);
-    }
-
-    public void UpdateEnergyBar(float normalizedValue)
-    {
-        HUDController.Instance?.UpdateEnergyBar(normalizedValue);
-    }
+    public void UpdateGemCounter(int col, int req) =>
+        HUDController.Instance?.UpdateGemCounter(col, req);
+    public void UpdateEnergyBar(float val) =>
+        HUDController.Instance?.UpdateEnergyBar(val);
 }

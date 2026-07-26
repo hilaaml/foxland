@@ -5,26 +5,33 @@ public class SceneLoader : MonoBehaviour
 {
     public static void LoadScene(string sceneName)
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneName);
+        if (SceneTransition.Instance != null)
+            SceneTransition.Instance.LoadScene(sceneName);
+        else
+            SceneManager.LoadScene(sceneName);
     }
 
     public static void LoadScene(int buildIndex)
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(buildIndex);
+        if (SceneTransition.Instance != null)
+            SceneTransition.Instance.LoadScene(buildIndex);
+        else
+            SceneManager.LoadScene(buildIndex);
     }
 
     public static void ReloadCurrentScene()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (SceneTransition.Instance != null)
+            SceneTransition.Instance.ReloadCurrentScene();
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public static void LoadNextScene()
     {
-        Time.timeScale = 1f;
-        int next = SceneManager.GetActiveScene().buildIndex + 1;
-        SceneManager.LoadScene(next);
+        if (SceneTransition.Instance != null)
+            SceneTransition.Instance.LoadNextScene();
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

@@ -8,7 +8,7 @@ public class SplashScreenController : MonoBehaviour
 
     [Header("Timing")]
     public float fadeInDuration = 1f;
-    public float holdDuration = 1.5f;
+    public float holdDuration = 2f;
     public float fadeOutDuration = 1f;
 
     [Header("Next Scene")]

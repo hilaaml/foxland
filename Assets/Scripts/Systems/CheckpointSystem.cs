@@ -2,17 +2,16 @@ using UnityEngine;
 
 public class CheckpointSystem : MonoBehaviour
 {
-    [Header("Visual")]
-    public SpriteRenderer flagRenderer;
-    public Sprite flagActive;     // sprite bendera saat aktif
-    public Sprite flagInactive;   // sprite bendera saat belum disentuh
+    [Header("Animation Clips")]
+    public AnimationClip clipInactive;
+    public AnimationClip clipActive;
 
+    private Animator _anim;
     private bool _isActivated = false;
 
-    void Start()
+    void Awake()
     {
-        if (flagRenderer != null && flagInactive != null)
-            flagRenderer.sprite = flagInactive;
+        _anim = GetComponent<Animator>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -22,17 +21,21 @@ public class CheckpointSystem : MonoBehaviour
 
         _isActivated = true;
 
-        // update respawn point Finn
+        SwapClip(clipActive);
+
         PlayerHealth player = other.GetComponent<PlayerHealth>();
         if (player != null)
             player.SetRespawnPoint(transform);
+    }
 
-        // ganti visual
-        if (flagRenderer != null && flagActive != null)
-            flagRenderer.sprite = flagActive;
+    void SwapClip(AnimationClip newClip)
+    {
+        AnimatorOverrideController overrideController =
+            new AnimatorOverrideController(_anim.runtimeAnimatorController);
 
-        // opsional: SFX checkpoint
-        // AudioManager.Instance?.PlaySFX("Checkpoint");
+        overrideController[clipInactive] = newClip;
+
+        _anim.runtimeAnimatorController = overrideController;
     }
 
     void OnDrawGizmosSelected()

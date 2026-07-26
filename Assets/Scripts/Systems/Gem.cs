@@ -15,7 +15,6 @@ public class Gem : MonoBehaviour
 
     void Update()
     {
-        // efek mengambang naik-turun
         float newY = _startPos.y + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
         transform.position = new Vector3(_startPos.x, newY, _startPos.z);
     }
