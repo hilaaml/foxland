@@ -9,8 +9,6 @@ public class MainMenuController : MonoBehaviour
     void Start()
     {
         ShowMainMenu();
-        AudioManager.Instance?.PlayBGM(
-            AudioManager.Instance.bgmMainMenu);
     }
 
     public void StartGame()

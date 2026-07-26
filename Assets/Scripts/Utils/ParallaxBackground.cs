@@ -38,7 +38,6 @@ public class ParallaxLayer : MonoBehaviour
 
     void SetupTiles()
     {
-        // tentukan source tile: pakai yang di-assign, atau child pertama
         if (sourceTile == null)
         {
             if (transform.childCount == 0)
@@ -63,11 +62,9 @@ public class ParallaxLayer : MonoBehaviour
             return;
         }
 
-        // hitung berapa banyak tile dibutuhkan untuk cover lebar kamera + buffer
         float camViewWidth = GetCameraViewWidth();
         _tilesNeeded = Mathf.CeilToInt(camViewWidth / _textureWidth) + 1 + (bufferTiles * 2);
 
-        // hapus semua child lain selain source (kalau ada sisa duplikasi manual lama)
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
             Transform child = transform.GetChild(i);
@@ -78,7 +75,6 @@ public class ParallaxLayer : MonoBehaviour
             }
         }
 
-        // generate tile sebanyak _tilesNeeded, clone dari source
         _tiles.Clear();
         _tiles.Add(sourceTile);
 
@@ -89,7 +85,6 @@ public class ParallaxLayer : MonoBehaviour
             _tiles.Add(clone);
         }
 
-        // susun semua tile berjejer rapi, center di posisi kamera saat ini
         float startX = _cam.transform.position.x - (_tilesNeeded * _textureWidth / 2f);
         for (int i = 0; i < _tiles.Count; i++)
         {
@@ -132,12 +127,10 @@ public class ParallaxLayer : MonoBehaviour
         {
             float distFromCam = camX - tile.position.x;
 
-            // tile sudah lewat di belakang kamera -> lempar ke paling depan
             if (distFromCam > _textureWidth * (_tilesNeeded / 2f))
             {
                 RepositionTile(tile, true);
             }
-            // tile terlalu jauh di depan kamera (kamera gerak mundur) -> lempar ke belakang
             else if (distFromCam < -_textureWidth * (_tilesNeeded / 2f))
             {
                 RepositionTile(tile, false);

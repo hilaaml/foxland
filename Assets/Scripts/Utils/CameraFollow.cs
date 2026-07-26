@@ -26,7 +26,6 @@ public class CameraFollow : MonoBehaviour
     {
         if (target == null)
         {
-            // auto-find Finn jika belum di-assign
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null) target = player.transform;
         }
@@ -34,7 +33,6 @@ public class CameraFollow : MonoBehaviour
         if (target != null)
         {
             _lastTargetX = target.position.x;
-            // snap kamera langsung ke posisi awal tanpa smooth
             SnapToTarget();
         }
     }
@@ -68,13 +66,11 @@ public class CameraFollow : MonoBehaviour
         Vector3 desiredPos = new Vector3(
             target.position.x + offset.x + _currentLookAhead,
             target.position.y + offset.y,
-            transform.position.z);      // pertahankan Z kamera
+            transform.position.z);
 
-        // clamp dalam batas level
         desiredPos.x = Mathf.Clamp(desiredPos.x, minX, maxX);
         desiredPos.y = Mathf.Clamp(desiredPos.y, minY, maxY);
 
-        // smooth follow
         transform.position = Vector3.Lerp(
             transform.position,
             desiredPos,
@@ -93,12 +89,10 @@ public class CameraFollow : MonoBehaviour
         transform.position = snapPos;
     }
 
-    // visualisasi bounds di Scene View
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
 
-        // gambar batas kamera sebagai rectangle
         Vector3 topLeft = new Vector3(minX, maxY, 0f);
         Vector3 topRight = new Vector3(maxX, maxY, 0f);
         Vector3 bottomLeft = new Vector3(minX, minY, 0f);

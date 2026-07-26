@@ -470,6 +470,7 @@ GameObject:
   - component: {fileID: 712224455}
   - component: {fileID: 712224454}
   - component: {fileID: 712224453}
+  - component: {fileID: 712224457}
   m_Layer: 0
   m_Name: PersistentManagers
   m_TagString: Untagged
@@ -501,11 +502,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ba00b8f4de6dd4689c2d8c0d3a3bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  sfxList: []
-  bgmMainMenu: {fileID: 0}
-  bgmLevel1: {fileID: 0}
-  bgmLevel2: {fileID: 0}
+  sfxList:
+  - clip: {fileID: 8300000, guid: f6a0719d187683948bd3c1ce7cec27a8, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 86fab5d9e9a35064bab13daf21c2e7b5, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 30581a6a847d84f45a909e752f65f73f, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 85e94e7f5b793cb48ae1d76d8aa768e8, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 11b5dc60d2215db4bb449c3ed66b4529, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 9b2305515d41bdd49a6e8567854f432a, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 99ea13dd490961142aa5ae1fb5bdfbd8, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 60524daf6a56c2545a2d476cfe982139, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 0a5fd179e24ffcc43a727f2aa26f68fd, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 93a440bba9bc2f7469a2e97a31057fc1, type: 3}
+    volume: 1
+  splashBGM: {fileID: 8300000, guid: e238d1c4e953e8e45a927a00d55bf3f3, type: 3}
+  mainMenuBGM: {fileID: 8300000, guid: 7c4ad388163f98449888453dda1da4a7, type: 3}
+  level1BGM: {fileID: 8300000, guid: 6f6c6c1b45522ad49a9985a22e20c535, type: 3}
+  level2BGM: {fileID: 8300000, guid: ff3faa8ebabb6504e9b520bb64a305bd, type: 3}
   bgmVolume: 0.5
+  fadeDuration: 0.4
+  patrolHearRadius: 8
 --- !u!114 &712224455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,6 +559,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &712224457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712224452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1cbb69f273f69e4e8ecccd214d2a80a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTransition
+  fadeDuration: 2
 --- !u!1 &1175861785
 GameObject:
   m_ObjectHideFlags: 0

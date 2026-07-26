@@ -6,7 +6,7 @@ public class HUDController : MonoBehaviour
 {
     [Header("Lives")]
     public Image heartBarImage;
-    public Sprite[] heartSprites; // index 0 = 0 nyawa, index 5 = 5 nyawa
+    public Sprite[] heartSprites;
 
     [Header("Gem Counter")]
     public TextMeshProUGUI gemCounterText;
