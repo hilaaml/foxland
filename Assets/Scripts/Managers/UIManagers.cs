@@ -76,7 +76,7 @@ public class UIManager : Singleton<UIManager>
     {
         HideAllCanvas();
         AudioManager.Instance?.ShowMenuOverlay();
-        bool isFinalLevel = SceneManager.GetActiveScene().buildIndex == 3;
+        bool isFinalLevel = LevelManager.Instance != null && LevelManager.Instance.isFinalLevel;
         SetCanvas(isFinalLevel ? _canvasFinalClear : _canvasLevelClear, true);
     }
 
@@ -87,11 +87,6 @@ public class UIManager : Singleton<UIManager>
         SetCanvas(_canvasGameOver, true);
     }
 
-    // HUD Passthrough
     public void UpdateLives(int currentLives) =>
         HUDController.Instance?.UpdateLives(currentLives);
-    public void UpdateGemCounter(int col, int req) =>
-        HUDController.Instance?.UpdateGemCounter(col, req);
-    public void UpdateEnergyBar(float val) =>
-        HUDController.Instance?.UpdateEnergyBar(val);
 }

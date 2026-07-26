@@ -27074,7 +27074,6 @@ GameObject:
   - component: {fileID: 1339489486}
   - component: {fileID: 1339489483}
   - component: {fileID: 1339489487}
-  - component: {fileID: 1339489488}
   m_Layer: 0
   m_Name: SceneManagers
   m_TagString: Untagged
@@ -27094,6 +27093,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de03c705e9dd3b245a77b97cf1023fbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
+  gemsRequired: 5
+  maxLives: 5
+  isFinalLevel: 0
   portal: {fileID: 497310223}
 --- !u!4 &1339489486
 Transform:
@@ -27122,18 +27124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1e9555f54e096479cf58be8a8da2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
---- !u!114 &1339489488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339489482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a67f20327613fac45a5a5a513100b3ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PatrolSFXManager
 --- !u!4 &1405313761 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7033688281312853045, guid: ad025eb6389f3b346b8bf9d946167707, type: 3}

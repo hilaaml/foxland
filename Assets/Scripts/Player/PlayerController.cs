@@ -2,8 +2,11 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
+    // Player selalu spawn baru tiap scene, jadi tidak boleh persist.
+    protected override bool Persistent => false;
+
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 12f;
@@ -26,8 +29,9 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] public float speedMultiplier = 1f;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
     }
@@ -50,7 +54,7 @@ public class PlayerController : MonoBehaviour
     void DetectLanding()
     {
         if (!_wasGrounded && _isGrounded)
-            AudioManager.Instance?.PlaySFX("Land");
+            AudioManager.Instance?.PlaySFX(SFXId.Land);
     }
 
     void GatherInput()
@@ -65,7 +69,7 @@ public class PlayerController : MonoBehaviour
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpForce);
             _anim.SetTrigger("Jump");
-            AudioManager.Instance?.PlaySFX("Jump");
+            AudioManager.Instance?.PlaySFX(SFXId.Jump);
         }
     }
 

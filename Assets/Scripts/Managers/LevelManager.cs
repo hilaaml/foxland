@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
+    [Header("Level Config")]
+    [Tooltip("Jumlah gem yang harus dikumpulkan untuk membuka portal di level ini.")]
+    public int gemsRequired = 5;
+    [Tooltip("Jumlah nyawa (heart) Finn di level ini.")]
+    public int maxLives = 5;
+    [Tooltip("Centang di level terakhir")]
+    public bool isFinalLevel = false;
+
     [Header("Portal")]
     public GameObject portal;
 
     private bool _portalOpen = false;
 
-    protected override void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        _instance = this;
-    }
+    protected override bool Persistent => false;
 
     void Start()
     {
@@ -27,24 +27,12 @@ public class LevelManager : Singleton<LevelManager>
     {
         _portalOpen = true;
         if (portal != null)
-            portal.SetActive(true);
+            portal.GetComponent<Portal>()?.Activate();
     }
 
     public void OnPlayerReachPortal()
     {
         if (!_portalOpen) return;
         GameManager.Instance?.LevelClear();
-    }
-
-    public void LoadNextLevel()
-    {
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player != null)
-        {
-            player.GetComponent<PlayerHealth>()?.ResetHealth();
-            player.GetComponent<PlayerEnergy>()?.ResetEnergy();
-        }
-
-        SceneLoader.LoadNextScene();
     }
 }

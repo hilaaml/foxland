@@ -4,13 +4,15 @@ using System.Collections;
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Lives")]
-    public int maxLives = 5;
     public int currentLives;
+
+    private const int DefaultMaxLives = 5;
+    private int _maxLives = DefaultMaxLives;
 
     [Header("Respawn")]
     public float respawnDelay = 1f;
     public float invincibleDuration = 2f;
-    private Transform _respawnPoint;
+    private Vector3 _respawnPosition;
     private bool _isInvincible = false;
     private bool _isDead = false;
 
@@ -23,21 +25,34 @@ public class PlayerHealth : MonoBehaviour
         _controller = GetComponent<PlayerController>();
         _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
-        currentLives = maxLives;
+        currentLives = _maxLives;
     }
 
     void Start()
     {
         PlayerSpawnPoint spawnPoint = FindFirstObjectByType<PlayerSpawnPoint>();
         if (spawnPoint != null)
-            _respawnPoint = spawnPoint.transform;
+        {
+            _respawnPosition = spawnPoint.transform.position;
+        }
         else
         {
-            _respawnPoint = new GameObject("FallbackSpawn").transform;
-            _respawnPoint.position = transform.position;
+            _respawnPosition = transform.position;
             Debug.LogWarning("[PlayerHealth] SpawnPoint tidak ditemukan, pakai posisi awal Finn.");
         }
+    }
 
+    public void OnSceneReady()
+    {
+        _maxLives = LevelManager.Instance != null
+            ? LevelManager.Instance.maxLives
+            : DefaultMaxLives;
+
+        currentLives = _maxLives;
+        _isDead = false;
+        _isInvincible = false;
+
+        HUDController.Instance?.SetupHearts(_maxLives);
         UIManager.Instance?.UpdateLives(currentLives);
     }
 
@@ -47,7 +62,7 @@ public class PlayerHealth : MonoBehaviour
         if (_isInvincible || _isDead) return;
 
         currentLives--;
-        AudioManager.Instance?.PlaySFX("Hurt");
+        AudioManager.Instance?.PlaySFX(SFXId.Hurt);
         UIManager.Instance?.UpdateLives(currentLives);
 
         if (currentLives <= 0)
@@ -55,8 +70,6 @@ public class PlayerHealth : MonoBehaviour
         else
             StartCoroutine(HurtRoutine());
     }
-
-    public void LoseLife() => TakeDamage();
 
     // Routines
     IEnumerator HurtRoutine()
@@ -70,7 +83,7 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(respawnDelay);
 
         // teleport ke respawn point
-        transform.position = _respawnPoint.position;
+        transform.position = _respawnPosition;
         _rb.linearVelocity = Vector2.zero;
 
         _controller.enabled = true;
@@ -87,7 +100,7 @@ public class PlayerHealth : MonoBehaviour
         _rb.linearVelocity = Vector2.zero;
 
         _anim.SetTrigger("Death");
-        AudioManager.Instance?.PlaySFX("Death");
+        AudioManager.Instance?.PlaySFX(SFXId.Death);
 
         yield return new WaitForSeconds(1.5f);
 
@@ -95,19 +108,8 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // Checkpoint
-    public void SetRespawnPoint(Transform point)
+    public void SetRespawnPoint(Vector3 position)
     {
-        _respawnPoint = point;
-    }
-
-    // Reset
-    public void ResetHealth()
-    {
-        currentLives = maxLives;
-        _isDead = false;
-        _isInvincible = false;
-        _controller.enabled = true;
-        _rb.linearVelocity = Vector2.zero;
-        UIManager.Instance?.UpdateLives(currentLives);
+        _respawnPosition = position;
     }
 }

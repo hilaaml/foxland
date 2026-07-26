@@ -16,7 +16,6 @@ public class Portal : MonoBehaviour
 
     public void Activate()
     {
-        _anim.SetTrigger("Open");
         gameObject.SetActive(true);
     }
 

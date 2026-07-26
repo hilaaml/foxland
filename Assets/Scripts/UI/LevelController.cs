@@ -1,26 +1,22 @@
 using UnityEngine;
 
-public class LevelController: MonoBehaviour
+public class LevelController : MonoBehaviour
 {
     public void NextLevel()
     {
-        AudioManager.Instance?.PlaySFX("UIClick");
-
-        FindFirstObjectByType<PlayerHealth>()?.ResetHealth();
-        FindFirstObjectByType<PlayerEnergy>()?.ResetEnergy();
-
+        AudioManager.Instance?.PlaySFX(SFXId.UIClick);
         SceneLoader.LoadNextScene();
     }
 
     public void PlayAgain()
     {
-        AudioManager.Instance?.PlaySFX("UIClick");
+        AudioManager.Instance?.PlaySFX(SFXId.UIClick);
         SceneLoader.LoadScene("Level1");
     }
 
     public void GoToMainMenu()
     {
-        AudioManager.Instance?.PlaySFX("UIClick");
+        AudioManager.Instance?.PlaySFX(SFXId.UIClick);
         SceneLoader.LoadScene("MainMenu");
     }
 }
