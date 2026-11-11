@@ -1,6 +1,6 @@
 # Foxland
 
-Game 2D side-scrolling platformer buatan sendiri, dibuat dengan Unity. Kamu jadi Finn, seekor rubah penjaga hutan yang harus mengambil kembali permata yang dicuri penyihir Shadow.
+Game 2D side-scrolling platformer, dibuat dengan Unity. Kamu jadi Finn, seekor rubah penjaga hutan yang harus mengambil kembali permata yang dicuri penyihir Shadow.
 
 Coba main di [itch.io](https://hilarrity.itch.io/foxland). Gratis.
 
